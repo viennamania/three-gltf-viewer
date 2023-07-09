@@ -35,13 +35,23 @@ class App {
     this.viewer = null;
     this.viewerEl = null;
     this.spinnerEl = el.querySelector('.spinner');
+
     this.dropEl = el.querySelector('.dropzone');
+
     this.inputEl = el.querySelector('#file-input');
+
     this.validator = new Validator(el);
 
-    this.createDropzone();
+    
+    ///this.createDropzone();
+    
+   
+    this.view();
+
+
     this.hideSpinner();
 
+    /*
     const options = this.options;
 
     if (options.kiosk) {
@@ -52,16 +62,25 @@ class App {
     if (options.model) {
       this.view(options.model, '', new Map());
     }
+    */
+
   }
+
 
   /**
    * Sets up the drag-and-drop controller.
    */
   createDropzone () {
+    
     const dropCtrl = new SimpleDropzone(this.dropEl, this.inputEl);
-    dropCtrl.on('drop', ({files}) => this.load(files));
+
+    ///dropCtrl.on('drop', ({files}) => this.load(files));
+    dropCtrl.on('drop', ({files}) => this.load());
+
     dropCtrl.on('dropstart', () => this.showSpinner());
+
     dropCtrl.on('droperror', () => this.hideSpinner());
+
   }
 
   /**
@@ -71,8 +90,10 @@ class App {
   createViewer () {
     this.viewerEl = document.createElement('div');
     this.viewerEl.classList.add('viewer');
+
     this.dropEl.innerHTML = '';
     this.dropEl.appendChild(this.viewerEl);
+
     this.viewer = new Viewer(this.viewerEl, this.options);
     return this.viewer;
   }
@@ -81,9 +102,13 @@ class App {
    * Loads a fileset provided by user action.
    * @param  {Map<string, File>} fileMap
    */
-  load (fileMap) {
+  //load (fileMap) {
+  load () {
+
+    /*
     let rootFile;
     let rootPath;
+
     Array.from(fileMap).forEach(([path, file]) => {
       if (file.name.match(/\.(gltf|glb)$/)) {
         rootFile = file;
@@ -95,7 +120,15 @@ class App {
       this.onError('No .gltf or .glb asset found.');
     }
 
-    this.view(rootFile, rootPath, fileMap);
+    console.log('Loading', rootFile.name, 'from', rootPath)
+    console.log('Files:', fileMap);
+
+    ///this.view(rootFile, rootPath, fileMap);
+    */
+
+
+    this.view();
+
   }
 
   /**
@@ -104,30 +137,56 @@ class App {
    * @param  {string} rootPath
    * @param  {Map<string, File>} fileMap
    */
-  view (rootFile, rootPath, fileMap) {
+  //view (rootFile, rootPath, fileMap) {
+  view () {
 
+
+    /*
     if (this.viewer) this.viewer.clear();
 
     const viewer = this.viewer || this.createViewer();
 
+    
     const fileURL = typeof rootFile === 'string'
       ? rootFile
       : URL.createObjectURL(rootFile);
+
+    
+    console.log("fileURL: " + fileURL)
+    
+
 
     const cleanup = () => {
       this.hideSpinner();
       if (typeof rootFile === 'object') URL.revokeObjectURL(fileURL);
     };
 
+
+    console.log("options.kiosk: " + this.options.kiosk);
+    */
+
+    const viewer = this.viewer || this.createViewer();
+
+
     viewer
-      .load(fileURL, rootPath, fileMap)
+      
+    //.load(fileURL, rootPath, fileMap)
+
+    .load()
+
+    /*
       .catch((e) => this.onError(e))
       .then((gltf) => {
+
+        
         if (!this.options.kiosk) {
           this.validator.validate(fileURL, rootPath, fileMap, gltf);
         }
+        
         cleanup();
       });
+      */
+
   }
 
   /**

@@ -37,6 +37,7 @@ import { environments } from './environments.js';
 const DEFAULT_CAMERA = '[default]';
 
 const MANAGER = new LoadingManager();
+
 const THREE_PATH = `https://unpkg.com/three@0.${REVISION}.x`
 const DRACO_LOADER = new DRACOLoader( MANAGER ).setDecoderPath( `${THREE_PATH}/examples/jsm/libs/draco/gltf/` );
 const KTX2_LOADER = new KTX2Loader( MANAGER ).setTranscoderPath( `${THREE_PATH}/examples/jsm/libs/basis/` );
@@ -128,7 +129,10 @@ export class Viewer {
     this.axesHelper = null;
 
     this.addAxesHelper();
+
     this.addGUI();
+
+
     if (options.kiosk) this.gui.close();
 
     this.animate = this.animate.bind(this);
@@ -174,15 +178,30 @@ export class Viewer {
     this.axesRenderer.setSize(this.axesDiv.clientWidth, this.axesDiv.clientHeight);
   }
 
-  load ( url, rootPath, assetMap ) {
+
+  //load ( url, rootPath, assetMap ) {
+  load ( ) {
+
+    const url = "/TEST2.glb";
+    const rootPath = "";
 
     const baseURL = LoaderUtils.extractUrlBase(url);
+
+    
+    ////console.log("baseURL", baseURL);
+
+   
 
     // Load.
     return new Promise((resolve, reject) => {
 
       // Intercept and override relative URLs.
       MANAGER.setURLModifier((url, path) => {
+
+
+        //console.log('URL', url);
+        //console.log('PATH', path);
+
 
         // URIs in a glTF file may be escaped, or not. Assume that assetMap is
         // from an un-escaped source, and decode all URIs before lookups.
@@ -191,16 +210,33 @@ export class Viewer {
           .replace(baseURL, '')
           .replace(/^(\.?\/)/, '');
 
+          /*
         if (assetMap.has(normalizedURL)) {
           const blob = assetMap.get(normalizedURL);
           const blobURL = URL.createObjectURL(blob);
+
+          //console.log('BLOB', blob);
+          //console.log('BLOBURL', blobURL);
+
           blobURLs.push(blobURL);
           return blobURL;
         }
+        */
+
+        //console.log('PATH', path);
+        //console.log('URL', url);
 
         return (path || '') + url;
 
+        //return "https://d1a370nemizbjq.cloudfront.net/37b095af-4bdc-41a8-8e2f-b897183535a4.glb"
+
+        //return "/TEST2.glb"
+
       });
+
+      
+      ///console.log('MANAGER', MANAGER);
+
 
       const loader = new GLTFLoader( MANAGER )
         .setCrossOrigin('anonymous')
@@ -239,6 +275,9 @@ export class Viewer {
     });
 
   }
+
+
+
 
   /**
    * @param {THREE.Object3D} object
@@ -307,8 +346,11 @@ export class Viewer {
     this.setClips(clips);
 
     this.updateLights();
+
     this.updateGUI();
+
     this.updateEnvironment();
+
     this.updateDisplay();
 
     window.VIEWER.scene = this.content;
