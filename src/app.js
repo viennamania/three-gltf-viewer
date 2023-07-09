@@ -22,8 +22,11 @@ class App {
   constructor (el, location) {
 
     const hash = location.hash ? queryString.parse(location.hash) : {};
+
     this.options = {
+      
       kiosk: Boolean(hash.kiosk),
+
       model: hash.model || '',
       preset: hash.preset || '',
       cameraPosition: hash.cameraPosition
@@ -34,6 +37,7 @@ class App {
     this.el = el;
     this.viewer = null;
     this.viewerEl = null;
+
     this.spinnerEl = el.querySelector('.spinner');
 
     this.dropEl = el.querySelector('.dropzone');
@@ -214,7 +218,11 @@ class App {
   }
 }
 
+
+/*
 document.body.innerHTML += Footer();
+*/
+
 
 document.addEventListener('DOMContentLoaded', () => {
 

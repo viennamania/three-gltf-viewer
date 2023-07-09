@@ -97,13 +97,16 @@ export class Viewer {
     const fov = options.preset === Preset.ASSET_GENERATOR
       ? 0.8 * 180 / Math.PI
       : 60;
+
     this.defaultCamera = new PerspectiveCamera( fov, el.clientWidth / el.clientHeight, 0.01, 1000 );
     this.activeCamera = this.defaultCamera;
     this.scene.add( this.defaultCamera );
 
     this.renderer = window.renderer = new WebGLRenderer({antialias: true});
     this.renderer.useLegacyLights = false;
+    
     this.renderer.outputEncoding = sRGBEncoding;
+
     this.renderer.setClearColor( 0xcccccc );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( el.clientWidth, el.clientHeight );
@@ -133,12 +136,18 @@ export class Viewer {
     this.addGUI();
 
 
-    if (options.kiosk) this.gui.close();
+    ///////// if (options.kiosk) this.gui.close();
+
+    this.gui.close();
+
+
 
     this.animate = this.animate.bind(this);
     requestAnimationFrame( this.animate );
     window.addEventListener('resize', this.resize.bind(this), false);
   }
+
+
 
   animate (time) {
 
@@ -183,6 +192,8 @@ export class Viewer {
   load ( ) {
 
     const url = "/TEST2.glb";
+    //const url = "/glbTest.glb";
+
     const rootPath = "";
 
     const baseURL = LoaderUtils.extractUrlBase(url);
@@ -206,9 +217,11 @@ export class Viewer {
         // URIs in a glTF file may be escaped, or not. Assume that assetMap is
         // from an un-escaped source, and decode all URIs before lookups.
         // See: https://github.com/donmccurdy/three-gltf-viewer/issues/146
+        /*
         const normalizedURL = rootPath + decodeURI(url)
           .replace(baseURL, '')
           .replace(/^(\.?\/)/, '');
+        */
 
           /*
         if (assetMap.has(normalizedURL)) {
@@ -318,7 +331,9 @@ export class Viewer {
 
     }
 
+    
     this.setCamera(DEFAULT_CAMERA);
+
 
     this.axesCamera.position.copy(this.defaultCamera.position)
     this.axesCamera.lookAt(this.axesScene.position)
@@ -355,14 +370,20 @@ export class Viewer {
 
     window.VIEWER.scene = this.content;
 
-    this.printGraph(this.content);
+
+    // console print
+    //this.printGraph(this.content);
 
   }
 
   printGraph (node) {
 
+    
     console.group(' <' + node.type + '> ' + node.name);
+
+
     node.children.forEach((child) => this.printGraph(child));
+
     console.groupEnd();
 
   }
@@ -394,17 +415,28 @@ export class Viewer {
    * @param {string} name
    */
   setCamera ( name ) {
+
+    
+
     if (name === DEFAULT_CAMERA) {
+
       this.controls.enabled = true;
       this.activeCamera = this.defaultCamera;
+
     } else {
+
       this.controls.enabled = false;
+
       this.content.traverse((node) => {
+
         if (node.isCamera && node.name === name) {
           this.activeCamera = node;
         }
+
       });
+
     }
+
   }
 
   updateLights () {
@@ -575,11 +607,16 @@ export class Viewer {
 
   addGUI () {
 
-    const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
+    //const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
+    const gui = this.gui = new GUI({autoPlace: false, width: 0, hideable: true});
 
     // Display controls.
+    
+    
     const dispFolder = gui.addFolder('Display');
+
     const envBackgroundCtrl = dispFolder.add(this.state, 'background');
+
     envBackgroundCtrl.onChange(() => this.updateEnvironment());
     const wireframeCtrl = dispFolder.add(this.state, 'wireframe');
     wireframeCtrl.onChange(() => this.updateDisplay());
@@ -591,7 +628,12 @@ export class Viewer {
     const bgColorCtrl = dispFolder.addColor(this.state, 'bgColor');
     bgColorCtrl.onChange(() => this.updateBackground());
 
+    
+
+
+
     // Lighting controls.
+    
     const lightFolder = gui.addFolder('Lighting');
     const envMapCtrl = lightFolder.add(this.state, 'environment', environments.map((env) => env.name));
     envMapCtrl.onChange(() => this.updateEnvironment());
@@ -604,16 +646,27 @@ export class Viewer {
       lightFolder.add(this.state, 'directIntensity', 0, 4), // TODO(#116)
       lightFolder.addColor(this.state, 'directColor')
     ].forEach((ctrl) => ctrl.onChange(() => this.updateLights()));
+    
+
 
     // Animation controls.
+    
     this.animFolder = gui.addFolder('Animation');
+    
     this.animFolder.domElement.style.display = 'none';
+
     const playbackSpeedCtrl = this.animFolder.add(this.state, 'playbackSpeed', 0, 1);
+
+    
     playbackSpeedCtrl.onChange((speed) => {
       if (this.mixer) this.mixer.timeScale = speed;
     });
-    this.animFolder.add({playAll: () => this.playAllClips()}, 'playAll');
+    
 
+    this.animFolder.add({playAll: () => this.playAllClips()}, 'playAll');
+    
+
+    
     // Morph target controls.
     this.morphFolder = gui.addFolder('Morph Targets');
     this.morphFolder.domElement.style.display = 'none';
@@ -630,13 +683,17 @@ export class Viewer {
     perfLi.classList.add('gui-stats');
     perfFolder.__ul.appendChild( perfLi );
 
+    
     const guiWrap = document.createElement('div');
     this.el.appendChild( guiWrap );
     guiWrap.classList.add('gui-wrap');
     guiWrap.appendChild(gui.domElement);
     gui.open();
+    
 
   }
+
+
 
   updateGUI () {
     this.cameraFolder.domElement.style.display = 'none';
