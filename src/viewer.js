@@ -79,9 +79,16 @@ export class Viewer {
       toneMapping: LinearToneMapping,
       ambientIntensity: 0.3,
       ambientColor: 0xFFFFFF,
+      
       directIntensity: 0.8 * Math.PI, // TODO(#116)
+
       directColor: 0xFFFFFF,
-      bgColor: 0x191919,
+
+      //bgColor: 0x191919,
+      //bgColor: 0x458FC9,
+      //bgColor: 0x0A2236,
+      bgColor: 0xE3DBCE,
+
     };
 
     this.prevTime = 0;
@@ -95,11 +102,24 @@ export class Viewer {
     this.scene = new Scene();
     this.scene.background = this.backgroundColor;
 
+
+    console.log("options.preset: " + options.preset);
+
+    
     const fov = options.preset === Preset.ASSET_GENERATOR
       ? 0.8 * 180 / Math.PI
+      //: 60;
       : 60;
+      
+
+    //const fov = 60;
 
     this.defaultCamera = new PerspectiveCamera( fov, el.clientWidth / el.clientHeight, 0.01, 1000 );
+
+    //this.defaultCamera = new PerspectiveCamera( fov, el.clientWidth / el.clientHeight, 0.2, 1000 );
+
+    ///////const camera = new THREE.PerspectiveCamera(75, WIDTH / HEIGHT, 0.1, 1000);
+
     this.activeCamera = this.defaultCamera;
     this.scene.add( this.defaultCamera );
 
@@ -197,9 +217,9 @@ export class Viewer {
 
     //const url = "/TEST2.glb";
 
-    ///const url = "/horse03_walk.glb";
+    const url = "/horse03_walk.glb";
 
-    const url = "/01_all_GLB.glb";
+    //const url = "/03_all_GLB.glb";
 
     ///const url = "https://granderby-hosted-content.s3.ap-southeast-1.amazonaws.com/avatar.glb";
 
@@ -327,9 +347,13 @@ export class Viewer {
     object.position.x += (object.position.x - center.x);
     object.position.y += (object.position.y - center.y);
     object.position.z += (object.position.z - center.z);
+
     this.controls.maxDistance = size * 10;
+
     this.defaultCamera.near = size / 100;
+
     this.defaultCamera.far = size * 100;
+    
     this.defaultCamera.updateProjectionMatrix();
 
     if (this.options.cameraPosition) {
@@ -388,11 +412,14 @@ export class Viewer {
 
 
     // console print
-    //this.printGraph(this.content);
+    ///this.printGraph(this.content);
 
   }
 
+
+
   printGraph (node) {
+
 
     
     console.group(' <' + node.type + '> ' + node.name);
@@ -426,10 +453,13 @@ export class Viewer {
       ////console.log("clip.name: " + clip.name);
 
       this.mixer.clipAction(clip).reset().play();
+
       this.state.actionStates[clip.name] = true;
 
     });
   }
+
+
 
   /**
    * @param {string} name
@@ -627,6 +657,8 @@ export class Viewer {
 
   addGUI () {
 
+    console.log("addGUI");
+
     //const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
     const gui = this.gui = new GUI({autoPlace: false, width: 0, hideable: true});
 
@@ -645,7 +677,9 @@ export class Viewer {
     const gridCtrl = dispFolder.add(this.state, 'grid');
     gridCtrl.onChange(() => this.updateDisplay());
     dispFolder.add(this.controls, 'screenSpacePanning');
+
     const bgColorCtrl = dispFolder.addColor(this.state, 'bgColor');
+
     bgColorCtrl.onChange(() => this.updateBackground());
 
     
@@ -716,6 +750,9 @@ export class Viewer {
 
 
   updateGUI () {
+
+    console.log("updateGUI");
+
     this.cameraFolder.domElement.style.display = 'none';
 
     this.morphCtrls.forEach((ctrl) => ctrl.remove());
@@ -769,8 +806,10 @@ export class Viewer {
 
 
     if (this.clips.length) {
+
       this.animFolder.domElement.style.display = '';
       const actionStates = this.state.actionStates = {};
+
       this.clips.forEach((clip, clipIndex) => {
 
         console.log("clip.name: " + clip.name);
