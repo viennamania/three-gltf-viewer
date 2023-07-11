@@ -21,6 +21,7 @@ import {
   LinearToneMapping,
   ACESFilmicToneMapping
 } from 'three';
+
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js';
@@ -191,8 +192,21 @@ export class Viewer {
   //load ( url, rootPath, assetMap ) {
   load ( ) {
 
-    const url = "/TEST2.glb";
+    
     //const url = "/glbTest.glb";
+
+    //const url = "/TEST2.glb";
+
+    ///const url = "/horse03_walk.glb";
+
+    const url = "/01_all_GLB.glb";
+
+    ///const url = "https://granderby-hosted-content.s3.ap-southeast-1.amazonaws.com/avatar.glb";
+
+    //const url = "https://d1a370nemizbjq.cloudfront.net/37b095af-4bdc-41a8-8e2f-b897183535a4.glb";
+
+    //const url = "https://d27ubsv6dm567a.cloudfront.net/animation/horse.glb";
+
 
     const rootPath = "";
 
@@ -297,6 +311,8 @@ export class Viewer {
    * @param {Array<THREE.AnimationClip} clips
    */
   setContent ( object, clips ) {
+
+    console.log("clips: " + clips );
 
     this.clear();
 
@@ -406,8 +422,12 @@ export class Viewer {
 
   playAllClips () {
     this.clips.forEach((clip) => {
+
+      ////console.log("clip.name: " + clip.name);
+
       this.mixer.clipAction(clip).reset().play();
       this.state.actionStates[clip.name] = true;
+
     });
   }
 
@@ -743,10 +763,18 @@ export class Viewer {
       });
     }
 
+
+    console.log("this.clips.length: " + this.clips.length);
+
+
+
     if (this.clips.length) {
       this.animFolder.domElement.style.display = '';
       const actionStates = this.state.actionStates = {};
       this.clips.forEach((clip, clipIndex) => {
+
+        console.log("clip.name: " + clip.name);
+
         clip.name = `${clipIndex + 1}. ${clip.name}`;
 
         // Autoplay the first clip.
