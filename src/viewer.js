@@ -75,12 +75,15 @@ export class Viewer {
 
       // Lights
       punctualLights: true,
-      exposure: 0.0,
+      ///////////////exposure: 0.0,
+      exposure: 1.7,
       toneMapping: LinearToneMapping,
-      ambientIntensity: 0.3,
+      ///////////ambientIntensity: 0.3,
+      ambientIntensity: 0.32,
       ambientColor: 0xFFFFFF,
       
-      directIntensity: 0.8 * Math.PI, // TODO(#116)
+      ///////directIntensity: 0.8 * Math.PI, // TODO(#116)
+      directIntensity: 2.5,
 
       directColor: 0xFFFFFF,
 
