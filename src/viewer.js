@@ -159,7 +159,7 @@ export class Viewer {
 
     ///////// if (options.kiosk) this.gui.close();
 
-    this.gui.close();
+    /////this.gui.close();
 
 
 
@@ -212,12 +212,13 @@ export class Viewer {
   //load ( url, rootPath, assetMap ) {
   load ( ) {
 
+    const url = "/03_all_GLB_v02.glb";
     
     //const url = "/glbTest.glb";
 
     //const url = "/TEST2.glb";
 
-    const url = "/horse03_walk.glb";
+    //const url = "/horse03_walk.glb";
 
     //const url = "/03_all_GLB.glb";
 
@@ -659,11 +660,14 @@ export class Viewer {
 
     console.log("addGUI");
 
-    //const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
-    const gui = this.gui = new GUI({autoPlace: false, width: 0, hideable: true});
+    const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
 
+    ///////const gui = this.gui = new GUI({autoPlace: false, width: 0, hideable: true});
+
+
+
+    /*
     // Display controls.
-    
     
     const dispFolder = gui.addFolder('Display');
 
@@ -681,11 +685,11 @@ export class Viewer {
     const bgColorCtrl = dispFolder.addColor(this.state, 'bgColor');
 
     bgColorCtrl.onChange(() => this.updateBackground());
-
+    */
     
 
 
-
+    /*
     // Lighting controls.
     
     const lightFolder = gui.addFolder('Lighting');
@@ -700,7 +704,8 @@ export class Viewer {
       lightFolder.add(this.state, 'directIntensity', 0, 4), // TODO(#116)
       lightFolder.addColor(this.state, 'directColor')
     ].forEach((ctrl) => ctrl.onChange(() => this.updateLights()));
-    
+    */
+
 
 
     // Animation controls.
@@ -729,6 +734,10 @@ export class Viewer {
     this.cameraFolder = gui.addFolder('Cameras');
     this.cameraFolder.domElement.style.display = 'none';
 
+    
+
+
+    /*
     // Stats.
     const perfFolder = gui.addFolder('Performance');
     const perfLi = document.createElement('li');
@@ -736,6 +745,9 @@ export class Viewer {
     perfLi.appendChild(this.stats.dom);
     perfLi.classList.add('gui-stats');
     perfFolder.__ul.appendChild( perfLi );
+    */
+    
+
 
     
     const guiWrap = document.createElement('div');
@@ -819,6 +831,9 @@ export class Viewer {
         // Autoplay the first clip.
         let action;
         if (clipIndex === 0) {
+
+        //if (clipIndex === 2) {
+
           actionStates[clip.name] = true;
           action = this.mixer.clipAction(clip);
           action.play();
@@ -828,13 +843,16 @@ export class Viewer {
 
         // Play other clips when enabled.
         const ctrl = this.animFolder.add(actionStates, clip.name).listen();
+
         ctrl.onChange((playAnimation) => {
           action = action || this.mixer.clipAction(clip);
           action.setEffectiveTimeScale(1);
           playAnimation ? action.play() : action.stop();
         });
         this.animCtrls.push(ctrl);
+
       });
+
     }
   }
 
