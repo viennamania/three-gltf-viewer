@@ -663,10 +663,15 @@ export class Viewer {
 
     console.log("addGUI");
 
-    const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
+    ///const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
 
     ///////const gui = this.gui = new GUI({autoPlace: false, width: 0, hideable: true});
 
+    const gui = this.gui = new GUI({
+      autoPlace: false,
+      width: 130,
+      hideable: true
+    });
 
 
     /*
@@ -714,18 +719,21 @@ export class Viewer {
     // Animation controls.
     
     this.animFolder = gui.addFolder('Animation');
-    
     this.animFolder.domElement.style.display = 'none';
 
+    /*
     const playbackSpeedCtrl = this.animFolder.add(this.state, 'playbackSpeed', 0, 1);
-
-    
     playbackSpeedCtrl.onChange((speed) => {
       if (this.mixer) this.mixer.timeScale = speed;
     });
+    */
+
+    //this.animFolder.add({playAll: () => this.playAllClips()}, 'playAll');
+
+    //this.animFolder.add({playAll: () => this.playAllClips()}, 'playAll');
+
     
 
-    this.animFolder.add({playAll: () => this.playAllClips()}, 'playAll');
     
 
     
@@ -829,7 +837,11 @@ export class Viewer {
 
         console.log("clip.name: " + clip.name);
 
-        clip.name = `${clipIndex + 1}. ${clip.name}`;
+        
+        //////clip.name = `${clipIndex + 1}. ${clip.name}`;
+
+        clip.name = `&nbsp;${clip.name}`;
+
 
         // Autoplay the first clip.
         let action;
@@ -849,16 +861,24 @@ export class Viewer {
         const ctrl = this.animFolder.add(actionStates, clip.name).listen();
 
         ctrl.onChange((playAnimation) => {
+          
           action = action || this.mixer.clipAction(clip);
+          
           action.setEffectiveTimeScale(1);
+
           playAnimation ? action.play() : action.stop();
+
+          //////action.play();
+
         });
+
         this.animCtrls.push(ctrl);
 
       });
 
     }
   }
+
 
   clear () {
 
