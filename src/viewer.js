@@ -74,10 +74,17 @@ export class Viewer {
       grid: false,
 
       // Lights
-      punctualLights: true,
+      ///punctualLights: true,
+      punctualLights: false,
+
       ///////////////exposure: 0.0,
       exposure: 1.7,
-      toneMapping: LinearToneMapping,
+      
+      ///toneMapping: LinearToneMapping,
+
+      toneMapping:  ACESFilmicToneMapping,
+      
+
       ///////////ambientIntensity: 0.3,
       ambientIntensity: 0.32,
       ambientColor: 0xFFFFFF,
@@ -87,10 +94,10 @@ export class Viewer {
 
       directColor: 0xFFFFFF,
 
-      //bgColor: 0x191919,
+      bgColor: 0x191919,
       //bgColor: 0x458FC9,
       //bgColor: 0x0A2236,
-      bgColor: 0xE3DBCE,
+      ///bgColor: 0xE3DBCE,
 
     };
 
@@ -391,8 +398,10 @@ export class Viewer {
     this.scene.add(object);
     this.content = object;
 
-    this.state.punctualLights = true;
+    //this.state.punctualLights = true;
+    this.state.punctualLights = false;
 
+    /*
     this.content.traverse((node) => {
       if (node.isLight) {
         this.state.punctualLights = false;
@@ -401,6 +410,10 @@ export class Viewer {
         node.material.depthWrite = !node.material.transparent;
       }
     });
+    */
+
+
+
 
     this.setClips(clips);
 
@@ -659,6 +672,8 @@ export class Viewer {
     this.axesDiv.appendChild(this.axesRenderer.domElement);
   }
 
+
+
   addGUI () {
 
     console.log("addGUI");
@@ -669,12 +684,13 @@ export class Viewer {
 
     const gui = this.gui = new GUI({
       autoPlace: false,
-      width: 130,
+      ////width: 130,
+      width: 230,
       hideable: true
     });
 
 
-    /*
+    
     // Display controls.
     
     const dispFolder = gui.addFolder('Display');
@@ -693,11 +709,11 @@ export class Viewer {
     const bgColorCtrl = dispFolder.addColor(this.state, 'bgColor');
 
     bgColorCtrl.onChange(() => this.updateBackground());
-    */
+  
+  
+
+
     
-
-
-    /*
     // Lighting controls.
     
     const lightFolder = gui.addFolder('Lighting');
@@ -705,6 +721,7 @@ export class Viewer {
     envMapCtrl.onChange(() => this.updateEnvironment());
     [
       lightFolder.add(this.state, 'toneMapping', {Linear: LinearToneMapping, 'ACES Filmic': ACESFilmicToneMapping}),
+
       lightFolder.add(this.state, 'exposure', -10, 10, 0.01),
       lightFolder.add(this.state, 'punctualLights').listen(),
       lightFolder.add(this.state, 'ambientIntensity', 0, 2),
@@ -712,7 +729,7 @@ export class Viewer {
       lightFolder.add(this.state, 'directIntensity', 0, 4), // TODO(#116)
       lightFolder.addColor(this.state, 'directColor')
     ].forEach((ctrl) => ctrl.onChange(() => this.updateLights()));
-    */
+    
 
 
 
@@ -765,7 +782,9 @@ export class Viewer {
     this.el.appendChild( guiWrap );
     guiWrap.classList.add('gui-wrap');
     guiWrap.appendChild(gui.domElement);
+
     gui.open();
+    //gui.close();
     
 
   }
