@@ -94,10 +94,10 @@ export class Viewer {
 
       directColor: 0xFFFFFF,
 
-      bgColor: 0x191919,
+      ///bgColor: 0x191919,
       //bgColor: 0x458FC9,
       //bgColor: 0x0A2236,
-      ///bgColor: 0xE3DBCE,
+      bgColor: 0xE3DBCE,
 
     };
 
