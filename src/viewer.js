@@ -684,13 +684,13 @@ export class Viewer {
 
     const gui = this.gui = new GUI({
       autoPlace: false,
-      ////width: 130,
-      width: 230,
+      width: 130,
+      //width: 230,
       hideable: true
     });
 
 
-    
+    /*
     // Display controls.
     
     const dispFolder = gui.addFolder('Display');
@@ -730,7 +730,7 @@ export class Viewer {
       lightFolder.addColor(this.state, 'directColor')
     ].forEach((ctrl) => ctrl.onChange(() => this.updateLights()));
     
-
+    */
 
 
     // Animation controls.
