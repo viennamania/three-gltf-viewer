@@ -1013,6 +1013,7 @@ function addCoordinateMarkers(object) {
   object.add(marker);
 
 
+  /*
 
   const marker2 = new AxesHelper(100);
 
@@ -1044,7 +1045,7 @@ function addCoordinateMarkers(object) {
   marker3.name = 'Coordinate Marker';
 
   object.add(marker3);
-
+  */
 
 
 
