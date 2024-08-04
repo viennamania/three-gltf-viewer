@@ -989,19 +989,16 @@ function addCoordinateMarkers(object) {
 
   // marker size length
 
-  const marker = new AxesHelper(500);
+  const marker = new AxesHelper(100);
 
 
   marker.position.set(-51.858, 33.168, -118.778);
 
-  //marker.position.set(-47.086, 42.943, -122.245);
-
-  //marker.position.set(-64.1, 33.168, -156.455);
 
 
-  //marker.scale.set(0.5, 0.5, 0.5);
+  marker.scale.set(0.5, 0.5, 0.5);
 
-  marker.scale.set(0.1, 0.1, 0.1);
+  //marker.scale.set(0.1, 0.1, 0.1);
 
   
 
@@ -1014,5 +1011,41 @@ function addCoordinateMarkers(object) {
 
 
   object.add(marker);
+
+
+
+  const marker2 = new AxesHelper(100);
+
+  marker2.position.set(-47.086, 42.943, -122.245);
+
+
+
+  marker.scale.set(0.5, 0.5, 0.5);
+
+  //marker2.scale.set(0.1, 0.1, 0.1);
+
+
+
+  object.add(marker2);
+
+
+  const marker3 = new AxesHelper(100);
+
+  // ( -64.1 , 33.168 , -156.455 )
+
+  marker3.position.set(-64.1, 33.168, -156.455);
+
+
+
+  marker3.scale.set(0.5, 0.5, 0.5);
+
+  //marker3.scale.set(0.1, 0.1, 0.1);
+
+  marker3.name = 'Coordinate Marker';
+
+  object.add(marker3);
+
+
+
 
 }
