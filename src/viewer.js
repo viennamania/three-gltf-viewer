@@ -222,7 +222,12 @@ export class Viewer {
   //load ( url, rootPath, assetMap ) {
   load ( ) {
 
-    const url = "/03_all_GLB_v02.glb";
+
+
+    const url = "/green.glb";
+
+    //const url = "/03_all_GLB_v02.glb";
+    
     
     //const url = "/glbTest.glb";
 
