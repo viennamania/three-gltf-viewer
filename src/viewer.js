@@ -419,6 +419,8 @@ export class Viewer {
 
 
 
+    addCoordinateMarkers(this.content);
+
 
     this.setClips(clips);
 
@@ -689,9 +691,14 @@ export class Viewer {
 
     const gui = this.gui = new GUI({
       autoPlace: false,
+      
       width: 130,
+
       //width: 230,
+
+
       hideable: true
+
     });
 
 
@@ -960,4 +967,52 @@ function isIOS() {
   ].includes(navigator.platform)
   // iPad on iOS 13 detection
   || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+}
+
+
+/*
+YELLOW VOXEL
+( -47.086 , 42.943 , -122.245 )
+
+GREEN VOXEL
+( -51.858 , 33.168 , -118.778 )
+
+BLUE VOXEL
+( -64.1 , 33.168 , -156.455 )
+ */
+
+
+
+function addCoordinateMarkers(object) {
+  
+
+
+  // marker size length
+
+  const marker = new AxesHelper(500);
+
+
+  marker.position.set(-51.858, 33.168, -118.778);
+
+  //marker.position.set(-47.086, 42.943, -122.245);
+
+  //marker.position.set(-64.1, 33.168, -156.455);
+
+
+  //marker.scale.set(0.5, 0.5, 0.5);
+
+  marker.scale.set(0.1, 0.1, 0.1);
+
+  
+
+  ///marker.name = 'Coordinate Marker';
+
+  //marker.visible = true;
+  // marker color GREEN
+  //marker.children[0].material.color.setHex(0x00FF00);
+
+
+
+  object.add(marker);
+
 }
